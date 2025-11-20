@@ -1,0 +1,99 @@
+﻿<Window x:Class="Snake.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Snake"
+        mc:Ignorable="d"
+        Title="Snake" Height="550" Width="800">
+    <DockPanel HorizontalAlignment="Left">
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Left">
+            <Label VerticalAlignment="Center" FontWeight="Bold">SNAKE</Label>
+            <Button x:Name="btn_startGame" VerticalAlignment="Center" Margin="5 5 0 0" Padding="5 5 5 5" Click="btn_startGame_Click">start</Button>
+            <CheckBox x:Name="chbx_showSettings" VerticalAlignment="Center" Margin="5 5 5 5" Checked="chbx_showSettings_Checked" Unchecked="chbx_showSettings_Unchecked">show settings</CheckBox>
+        </StackPanel>
+        <GroupBox x:Name="grbx_settings" Header="settings" Margin="5 5 5 5" Padding="5 5 5 5" Visibility="Visible">
+            <StackPanel>
+                <GroupBox Header="game field" Margin="5 5 5 5" Padding="5 5 5 5">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
+                            <Label Width="100">heigth:</Label>
+                            <TextBox x:Name="txtb_gameFieldHeightInput" Width="70">15</TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Width="100">width:</Label>
+                            <TextBox x:Name="txtb_gameFieldWidthInput" Width="70">15</TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0 5 0 0">
+                            <Label Width="100">bg-color:</Label>
+                            <ComboBox x:Name="cmbx_backgroundColor" SelectedIndex="0" Width="70">
+                                <ComboBoxItem>black</ComboBoxItem>
+                                <ComboBoxItem>yellow</ComboBoxItem>
+                                <ComboBoxItem>green</ComboBoxItem>
+                                <ComboBoxItem>red</ComboBoxItem>
+                                <ComboBoxItem>blue</ComboBoxItem>
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0 5 0 0">
+                            <Label Width="100">pixel width:</Label>
+                            <TextBox x:Name="txtb_singlePixelWidth" Width="70">50</TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0 5 0 0">
+                            <Label Width="100">pixel height:</Label>
+                            <TextBox x:Name="txtb_singlePixelHeight" Width="70">50</TextBox>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Header="snake" Margin="5 5 5 5" Padding="5 5 5 5">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
+                            <Label Width="100">color:</Label>
+                            <ComboBox x:Name="cmbx_snakeColor" SelectedIndex="0" Width="70">
+                                <ComboBoxItem>yellow</ComboBoxItem>
+                                <ComboBoxItem>black</ComboBoxItem>
+                                <ComboBoxItem>green</ComboBoxItem>
+                                <ComboBoxItem>red</ComboBoxItem>
+                                <ComboBoxItem>blue</ComboBoxItem>
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
+                            <Label Width="100">starting length:</Label>
+                            <TextBox x:Name="txtb_snakeStartingLength" Width="70">2</TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
+                            <Label Width="100">speed (milli sec):</Label>
+                            <TextBox x:Name="txtb_snakeSpeed" Width="70">150</TextBox>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Header="PowerUp" Margin="5 5 5 5" Padding="5 5 5 5">
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
+                            <Label Width="100">life span:</Label>
+                            <TextBox x:Name="txtb_lifeSpan" Width="70">20</TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
+                            <Label Width="100">powerUp color:</Label>
+                            <ComboBox x:Name="cmbx_powerUpColor" SelectedIndex="0" Width="70">
+                                <ComboBoxItem>red</ComboBoxItem>
+                                <ComboBoxItem>black</ComboBoxItem>
+                                <ComboBoxItem>green</ComboBoxItem>
+                                <ComboBoxItem>yellow</ComboBoxItem>
+                                <ComboBoxItem>blue</ComboBoxItem>
+                            </ComboBox>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="messages" Margin="5 5 5 5" Padding="5 5 5 5">
+                    <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
+                        <Label x:Name="lbl_gameOverMessage" Foreground="Red" FontSize="20"></Label>
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </GroupBox>
+        <Canvas x:Name="cv_gameField" Margin="20 10 0 0">
+             
+        </Canvas>
+    </DockPanel>
+</Window>
