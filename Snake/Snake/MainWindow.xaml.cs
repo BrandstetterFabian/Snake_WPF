@@ -482,9 +482,15 @@ namespace Snake
             gf.PrintPixelField();
         }
 
+        void OutputStats()
+        {
+            lbl_statsMessage.Content += $"STATS:\n Score: {gf.sh.Value}";
+        }
+
         void GameOver()
         {
             lbl_gameOverMessage.Content = "GAME OVER";
+            OutputStats();
         }
 
         private void chbx_showSettings_Checked(object sender, RoutedEventArgs e)

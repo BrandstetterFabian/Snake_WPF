@@ -79,8 +79,9 @@
                 </GroupBox>
 
                 <GroupBox Header="messages" Margin="5 5 5 5" Padding="5 5 5 5">
-                    <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
+                    <StackPanel Orientation="Vertical" Margin="0 0 0 5">
                         <Label x:Name="lbl_gameOverMessage" Foreground="Red" FontSize="20"></Label>
+                        <Label x:Name="lbl_statsMessage" Foreground="Blue" FontSize="15"></Label>
                     </StackPanel>
                 </GroupBox>
             </StackPanel>
