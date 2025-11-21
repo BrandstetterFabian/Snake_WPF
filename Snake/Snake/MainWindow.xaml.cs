@@ -363,6 +363,7 @@ namespace Snake
                 Keyboard.Focus(this);
                 this.PreviewKeyDown += MainWindow_PreviewKeyDown;
                 lbl_gameOverMessage.Content = string.Empty;
+                lbl_statsMessage.Content = string.Empty;    
 
                 Color bgCol = Colors.Black;
                 switch (cmbx_backgroundColor.SelectedIndex)
@@ -484,7 +485,7 @@ namespace Snake
 
         void OutputStats()
         {
-            lbl_statsMessage.Content += $"STATS:\n Score: {gf.sh.Value}";
+            lbl_statsMessage.Content = $"STATS:\n Score: {gf.sh.Value}";
         }
 
         void GameOver()
