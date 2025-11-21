@@ -108,7 +108,7 @@ namespace Snake
             return false;
         }
 
-        public void SpawnPowerUp(int lifeSpan, Color powerUpCol)
+        public int[] SpawnPowerUp(int lifeSpan, Color powerUpCol)
         {
             var rand = new Random();
             int randXPos = rand.Next(0, PixelField.GetLength(1));
@@ -120,6 +120,9 @@ namespace Snake
             }
             PowerUp powerUp = new PowerUp(randXPos, randYpos, lifeSpan, powerUpCol);
             PixelField[randYpos, randXPos] = powerUp;
+
+            int[] powerUpPos = {randXPos, randYpos};
+            return powerUpPos;
         }
         public void DeletePowerUp()
         {
@@ -177,6 +180,7 @@ namespace Snake
             SetPixelColor();
         }
     }
+
     interface IChangePixelValue
     {
         void ChangeValue();
@@ -201,6 +205,7 @@ namespace Snake
             if (Value > 0) Value--;
         }
     }
+
     class SnakeHead: Pixel
     {
         public int Direction { get; set; } // 0=up, 1=right, 2=down, 3=left
@@ -254,6 +259,10 @@ namespace Snake
             }
             DirectionChanged = false;
         }
+        public void ChangePosAutomated(int direction)
+        {
+
+        }
         public void SetPos(int xPos, int yPos)
         {
             XPos = xPos;
@@ -300,6 +309,8 @@ namespace Snake
     public partial class MainWindow : Window
     {
         DispatcherTimer gameTimer = new DispatcherTimer();
+        DispatcherTimer gameTimerAutomatedSnake = new DispatcherTimer();
+
         GameField gf;
         int oldX, oldY;
         Color powerUpCol = Colors.Red;
@@ -311,6 +322,9 @@ namespace Snake
             chbx_showSettings.IsChecked = true;
             gameTimer.Interval = TimeSpan.FromMilliseconds(Convert.ToInt16(txtb_snakeSpeed.Text));
             gameTimer.Tick += GameLoop;
+
+            gameTimerAutomatedSnake.Interval = TimeSpan.FromMilliseconds(Convert.ToInt16(txtb_snakeSpeed.Text));
+            gameTimerAutomatedSnake.Tick += AutomatedGameLoop;
         }
 
         public bool IsInteger(string input)
@@ -353,97 +367,112 @@ namespace Snake
             return false;
         }
 
+        void InitGame()
+        {
+            gameTimer.Interval = TimeSpan.FromMilliseconds(Convert.ToInt16(txtb_snakeSpeed.Text));
+            this.KeyDown += MainWindow_KeyDown;
+            this.Focus();
+            Keyboard.Focus(this);
+            this.PreviewKeyDown += MainWindow_PreviewKeyDown;
+            lbl_gameOverMessage.Content = string.Empty;
+            lbl_statsMessage.Content = string.Empty;
+
+            Color bgCol = Colors.Black;
+            switch (cmbx_backgroundColor.SelectedIndex)
+            {
+                case 0:
+                    bgCol = Colors.Black;
+                    break;
+                case 1:
+                    bgCol = Colors.Yellow;
+                    break;
+                case 2:
+                    bgCol = Colors.Green;
+                    break;
+                case 3:
+                    bgCol = Colors.Red;
+                    break;
+                case 4:
+                    bgCol = Colors.Blue;
+                    break;
+            }
+
+            Color snakeCol = Colors.Yellow;
+            switch (cmbx_snakeColor.SelectedIndex)
+            {
+                case 0:
+                    snakeCol = Colors.Yellow;
+                    break;
+                case 1:
+                    snakeCol = Colors.Black;
+                    break;
+                case 2:
+                    snakeCol = Colors.Green;
+                    break;
+                case 3:
+                    snakeCol = Colors.Red;
+                    break;
+                case 4:
+                    snakeCol = Colors.Blue;
+                    break;
+            }
+
+            switch (cmbx_powerUpColor.SelectedIndex)
+            {
+                case 0:
+                    powerUpCol = Colors.Red;
+                    break;
+                case 1:
+                    powerUpCol = Colors.Black;
+                    break;
+                case 2:
+                    powerUpCol = Colors.Green;
+                    break;
+                case 3:
+                    powerUpCol = Colors.Yellow;
+                    break;
+                case 4:
+                    powerUpCol = Colors.Blue;
+                    break;
+            }
+
+            gf = new GameField(
+                Convert.ToInt32(txtb_gameFieldHeightInput.Text),
+                Convert.ToInt32(txtb_gameFieldWidthInput.Text),
+                bgCol,
+                new SnakeHead(2, 2, snakeCol),
+                Convert.ToInt16(this.Height / Convert.ToInt32(txtb_gameFieldHeightInput.Text) * 2),
+                Convert.ToInt16(this.Height / Convert.ToInt32(txtb_gameFieldHeightInput.Text) * 2),
+                this);
+
+            gf.sh.Value = Convert.ToInt32((txtb_snakeStartingLength.Text));
+            gf.FillPixelFields();
+            gf.PrintPixelField();
+            gf.SpawnPowerUp(Convert.ToInt16(txtb_lifeSpan.Text), powerUpCol);
+            gf.SetPixelColor();
+            gf.Update();
+
+            oldX = gf.sh.XPos;
+            oldY = gf.sh.YPos;
+        }
+
         private void btn_startGame_Click(object sender, RoutedEventArgs e)
         {
             if (InputValidation())
             {
-                gameTimer.Interval = TimeSpan.FromMilliseconds(Convert.ToInt16(txtb_snakeSpeed.Text));
-                this.KeyDown += MainWindow_KeyDown;
-                this.Focus();
-                Keyboard.Focus(this);
-                this.PreviewKeyDown += MainWindow_PreviewKeyDown;
-                lbl_gameOverMessage.Content = string.Empty;
-                lbl_statsMessage.Content = string.Empty;    
-
-                Color bgCol = Colors.Black;
-                switch (cmbx_backgroundColor.SelectedIndex)
-                {
-                    case 0:
-                        bgCol = Colors.Black;
-                        break;
-                    case 1:
-                        bgCol = Colors.Yellow;
-                        break;
-                    case 2:
-                        bgCol = Colors.Green;
-                        break;
-                    case 3:
-                        bgCol = Colors.Red;
-                        break;
-                    case 4:
-                        bgCol = Colors.Blue;
-                        break;
-                }
-
-                Color snakeCol = Colors.Yellow;
-                switch (cmbx_snakeColor.SelectedIndex)
-                {
-                    case 0:
-                        snakeCol = Colors.Yellow;
-                        break;
-                    case 1:
-                        snakeCol = Colors.Black;
-                        break;
-                    case 2:
-                        snakeCol = Colors.Green;
-                        break;
-                    case 3:
-                        snakeCol = Colors.Red;
-                        break;
-                    case 4:
-                        snakeCol = Colors.Blue;
-                        break;
-                }
-
-                switch (cmbx_powerUpColor.SelectedIndex)
-                {
-                    case 0:
-                        powerUpCol = Colors.Red;
-                        break;
-                    case 1:
-                        powerUpCol = Colors.Black;
-                        break;
-                    case 2:
-                        powerUpCol = Colors.Green;
-                        break;
-                    case 3:
-                        powerUpCol = Colors.Yellow;
-                        break;
-                    case 4:
-                        powerUpCol = Colors.Blue;
-                        break;
-                }
-
-                gf = new GameField(
-                    Convert.ToInt32(txtb_gameFieldHeightInput.Text), 
-                    Convert.ToInt32(txtb_gameFieldWidthInput.Text), 
-                    bgCol, 
-                    new SnakeHead(2, 2, snakeCol),
-                    Convert.ToInt16(this.Height / Convert.ToInt32(txtb_gameFieldHeightInput.Text) * 2), 
-                    Convert.ToInt16(this.Height / Convert.ToInt32(txtb_gameFieldHeightInput.Text) * 2), 
-                    this);
-
-                gf.sh.Value = Convert.ToInt32((txtb_snakeStartingLength.Text));
-                gf.FillPixelFields();
-                gf.PrintPixelField();
-                gf.SpawnPowerUp(Convert.ToInt16(txtb_lifeSpan.Text), powerUpCol);
-                gf.SetPixelColor();
-                gf.Update();
-
-                oldX = gf.sh.XPos;
-                oldY = gf.sh.YPos;
+                InitGame();
 
                 gameTimer.Start();
+            }
+        }
+
+        private void btn_startAutomatedGame_Click(object sender, RoutedEventArgs e)
+        {
+            if (InputValidation())
+            {
+                InitGame();
+
+                gameTimerAutomatedSnake.Start();
             }
         }
 
@@ -481,6 +510,63 @@ namespace Snake
             gf.Update();
             //gf.SetPixelColor();
             gf.PrintPixelField();
+        }
+
+        void AutomatedGameLoop(object sender, EventArgs e)
+        {
+            Pixel tail = new Pixel(oldX, oldY);
+            tail.Value = gf.sh.Value;
+            gf.PixelField[oldY, oldX] = tail;
+
+            int[] powerUpPos = new int[2];
+
+            if (gf.CheckIfCollisions())
+            {
+                gameTimer.Stop();
+                GameOver();
+                this.PreviewKeyDown -= MainWindow_PreviewKeyDown;
+                return;
+            }
+            if (gf.PixelField[gf.sh.YPos, gf.sh.XPos] is PowerUp)
+            {
+                gf.sh.ChangeValue();
+                powerUpPos = gf.SpawnPowerUp(Convert.ToInt16(txtb_lifeSpan.Text), powerUpCol);
+            }
+            if (!gf.PowerUpExists())
+            {
+                gf.SpawnPowerUp(Convert.ToInt16(txtb_lifeSpan.Text), powerUpCol);
+            }
+            gf.sh.ChangePosAutomated(CalcAutomatedDirection(powerUpPos));
+
+            oldX = gf.sh.XPos;
+            oldY = gf.sh.YPos;
+
+            gf.PixelField[gf.sh.YPos, gf.sh.XPos] = gf.sh;
+            gf.PixelField[gf.sh.YPos, gf.sh.XPos].Value = gf.sh.Value;
+
+            gf.Update();
+            //gf.SetPixelColor();
+            gf.PrintPixelField();
+        }
+
+        int CalcAutomatedDirection(int[] powerUpPos)
+        {
+            //int direction = 0;
+            if(gf.sh.XPos < powerUpPos[0] && gf.sh.Direction == 3)
+            {
+                if(gf.sh.YPos < 1)
+                {
+                    return 2;
+                }
+            }
+            if(gf.sh.XPos > powerUpPos[0] && gf.sh.Direction == 1)
+            {
+                if (gf.sh.YPos < 1)
+                {
+                    return 2;
+                }
+            }
+            return 1;
         }
 
         void OutputStats()

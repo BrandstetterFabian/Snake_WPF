@@ -10,6 +10,7 @@
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Left">
             <Label VerticalAlignment="Center" FontWeight="Bold">SNAKE</Label>
             <Button x:Name="btn_startGame" VerticalAlignment="Center" Margin="5 5 0 0" Padding="5 5 5 5" Width="90" Click="btn_startGame_Click">start</Button>
+            <Button x:Name="btn_startAutomatedGame" VerticalAlignment="Center" Margin="5 5 0 0" Padding="5 5 5 5">start automated snake</Button>
             <CheckBox x:Name="chbx_showSettings" VerticalAlignment="Center" Margin="5 5 5 5" Checked="chbx_showSettings_Checked" Unchecked="chbx_showSettings_Unchecked">show settings</CheckBox>
         </StackPanel>
         <GroupBox x:Name="grbx_settings" Header="settings" Margin="5 5 5 5" Padding="5 5 5 5" Visibility="Visible">
