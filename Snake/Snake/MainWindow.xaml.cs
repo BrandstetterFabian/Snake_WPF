@@ -261,7 +261,21 @@ namespace Snake
         }
         public void ChangePosAutomated(int direction)
         {
-
+            switch (direction)
+            {
+                case 0:
+                    MoveUp();
+                    break;
+                case 1:
+                    MoveRight();
+                    break;
+                case 2:
+                    MoveDown();
+                    break;
+                case 3:
+                    MoveLeft();
+                    break;
+            }
         }
         public void SetPos(int xPos, int yPos)
         {
