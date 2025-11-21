@@ -34,14 +34,7 @@
                                 <ComboBoxItem>blue</ComboBoxItem>
                             </ComboBox>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0 5 0 0">
-                            <Label Width="100">pixel width:</Label>
-                            <TextBox x:Name="txtb_singlePixelWidth" Width="70">50</TextBox>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0 5 0 0">
-                            <Label Width="100">pixel height:</Label>
-                            <TextBox x:Name="txtb_singlePixelHeight" Width="70">50</TextBox>
-                        </StackPanel>
+                        
                     </StackPanel>
                 </GroupBox>
                 <GroupBox Header="snake" Margin="5 5 5 5" Padding="5 5 5 5">

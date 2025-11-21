@@ -214,22 +214,22 @@ namespace Snake
         }
         public void ChangeDirection(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Up && Direction != 2 && !DirectionChanged)
+            if ((e.Key == Key.Up || e.Key == Key.W) && Direction != 2 && !DirectionChanged)
             {
                 Direction = 0;
                 DirectionChanged = true;
             }
-            else if (e.Key == Key.Right && Direction != 3 && !DirectionChanged)
+            else if ((e.Key == Key.Right || e.Key == Key.D) && Direction != 3 && !DirectionChanged)
             {
                 Direction = 1;
                 DirectionChanged = true;
             }
-            else if (e.Key == Key.Down && Direction != 0 && !DirectionChanged)
+            else if ((e.Key == Key.Down || e.Key == Key.S) && Direction != 0 && !DirectionChanged)
             {
                 Direction = 2;
                 DirectionChanged = true;
             }
-            else if (e.Key == Key.Left && Direction != 1 && !DirectionChanged)
+            else if ((e.Key == Key.Left || e.Key == Key.A) && Direction != 1 && !DirectionChanged)
             {
                 Direction = 3;
                 DirectionChanged = true;
@@ -335,7 +335,7 @@ namespace Snake
 
         private bool InputValidation()
         {
-            if (txtb_gameFieldHeightInput.Text != string.Empty && txtb_gameFieldWidthInput.Text != string.Empty && txtb_snakeStartingLength.Text != string.Empty && txtb_lifeSpan.Text != string.Empty && txtb_singlePixelWidth.Text != string.Empty && txtb_gameFieldHeightInput.Text != string.Empty)
+            if (txtb_gameFieldHeightInput.Text != string.Empty && txtb_gameFieldWidthInput.Text != string.Empty && txtb_snakeStartingLength.Text != string.Empty && txtb_lifeSpan.Text != string.Empty && txtb_gameFieldHeightInput.Text != string.Empty)
             {
                 if (IsInteger(txtb_gameFieldHeightInput.Text) && IsInteger(txtb_gameFieldWidthInput.Text) && IsInteger(txtb_snakeStartingLength.Text) && IsInteger(txtb_lifeSpan.Text) && IsInteger(txtb_gameFieldWidthInput.Text) && IsInteger(txtb_gameFieldHeightInput.Text))
                 {
